@@ -11,24 +11,27 @@ public class unlockstair : MonoBehaviour {
     {
         anim = this.GetComponent<Animator>();
         anim.enabled = false;
+        Debug.Log("start unlockstair");
 
 	}
 	
 	// Update is called once per frame
 	void Update ()
-    {
+    { 
         
 	}
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "pnj")
+        if (other.tag == "Lemming")
         {
             ActiveStairs();
+            
         }
     }
     void ActiveStairs()
     {
         Debug.Log("More Stairs");
         anim.enabled = true;
+       
     }
 }
