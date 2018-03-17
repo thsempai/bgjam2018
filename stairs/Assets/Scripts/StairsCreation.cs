@@ -86,6 +86,7 @@ public class StairsCreation : MonoBehaviour {
                     GameObject newStep = Instantiate(stepsPrefabs[0], startPos + ((float)i / numberOfSteps) * trajectory + new Vector3(0, yOffset, 0), Quaternion.LookRotation(orientation)) as GameObject;
                     newStep.transform.localScale = new Vector3(newStep.transform.localScale.x, newStep.transform.localScale.y * yScale, newStep.transform.localScale.z * zScale);
                     steps.Add(newStep);
+                    newStep.GetComponent<StairsStep>().stairs = this;
                 }
             }
 
@@ -104,5 +105,18 @@ public class StairsCreation : MonoBehaviour {
         foreach (GameObject step in steps) {
             Destroy(step);
         }
+        steps.Clear();
+    }
+
+    public void DestroyStairsVisibly() {
+        foreach (GameObject step in steps) {
+            print("Destroying step");
+            step.GetComponent<Rigidbody>().isKinematic = false;
+            Destroy(step, 3f);
+        }
+        if (gameObject) {
+            Destroy(gameObject);
+        }
+        
     }
 }
