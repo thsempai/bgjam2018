@@ -20,11 +20,11 @@ public class NPCManager : MonoBehaviour {
         set { agent.isStopped = value; }
         }
     public float speed {
-        get { return agent.speed; }
-        set { agent.speed = value; }
+        get { return GetComponent<NavMeshAgent>().speed; }
+        set { GetComponent<NavMeshAgent>().speed = value; }
         }
 
-    public float StoppingDistance{
+    public float StoppingDistance {
         get { return agent.stoppingDistance; }
         set {
             GetComponent<NavMeshAgent>().stoppingDistance = value;
@@ -40,11 +40,7 @@ public class NPCManager : MonoBehaviour {
         if (target != null) {
             agent.SetDestination(target.transform.position);
             NPCManager targetManager = target.GetComponent<NPCManager>();
-            if(targetManager != null) {
-                if (targetManager.isStopped) {
-                    isStopped = true;
-                    }
-                }
+
             }
         }
 
