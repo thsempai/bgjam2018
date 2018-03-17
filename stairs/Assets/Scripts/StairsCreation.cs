@@ -9,6 +9,9 @@ public class StairsCreation : MonoBehaviour {
 
     public bool debugMode;
 
+    public StairConnector startConnector;
+    public StairConnector endConnector;
+
     public GameObject[] stepsPrefabs;
     public Vector3 stepsDimensions;
 
@@ -32,6 +35,16 @@ public class StairsCreation : MonoBehaviour {
         dirty = true;
 	}
 
+    public void AttachStart(StairConnector connector) {
+        startConnector = connector;
+        startPos = connector.transform.position;
+    }
+
+    public void AttachEnd(StairConnector connector) {
+        endConnector = connector;
+        endPos = connector.transform.position;
+    }
+
     // Update is called once per frame
     void Update() {
         if (debugMode) {
@@ -47,9 +60,7 @@ public class StairsCreation : MonoBehaviour {
         }
 
         if (dirty) {
-            foreach (GameObject step in steps) {
-                Destroy(step);
-            }
+            DestroyStairs();
 
             trajectory = endPos - startPos;
             orientation = new Vector3(trajectory.x, 0, trajectory.z);
@@ -85,8 +96,13 @@ public class StairsCreation : MonoBehaviour {
 
     }
 
-    private bool ValidateStairs() {
+    public bool ValidateStairs() {
         return (zScale > 0.25 && totalLength < 50);
     }
-                    
+                
+    public void DestroyStairs() {
+        foreach (GameObject step in steps) {
+            Destroy(step);
+        }
+    }
 }
