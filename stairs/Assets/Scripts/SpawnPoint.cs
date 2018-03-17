@@ -49,6 +49,8 @@ public class SpawnPoint : MonoBehaviour {
             cloneManager.Follow(lastest);
             cloneManager.StoppingDistance = distanceBetweenNPC;
             }
+
+        cloneManager.speed = NPCSpeed;
         lastest = clone;
         number--;
         }
