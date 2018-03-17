@@ -17,6 +17,15 @@ public class StairsCreation : MonoBehaviour {
     private Vector3 oldStartPos;
     private Vector3 oldEndPos;
 
+    private int numberOfSteps;
+    private float totalLength;
+    private float length;
+    private float height;
+    private float yScale;
+    private float zScale;
+    private Vector3 trajectory;
+    private Vector3 orientation;
+
 	// Use this for initialization
 	void Start () {
         steps = new List<GameObject>();
@@ -26,7 +35,11 @@ public class StairsCreation : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (debugMode) {
-            Debug.DrawLine(startPos, endPos, Color.green);
+            Color lineColor = Color.red;
+            if (ValidateStairs()) {
+                lineColor = Color.green;
+            }
+            Debug.DrawLine(startPos, endPos, lineColor);
         }
 
         if (oldStartPos != startPos || oldEndPos != endPos) {
@@ -38,25 +51,31 @@ public class StairsCreation : MonoBehaviour {
                 Destroy(step);
             }
 
-            float length = Vector3.Magnitude(endPos - startPos);
-            float stairHeight = (endPos - startPos).y;
-            int numberOfSteps = (int)Mathf.Ceil(stairHeight / stepsDimensions.y);
-            if (stairHeight - numberOfSteps * stepsDimensions.y > stepsDimensions.y / 2.0f) {
+            trajectory = endPos - startPos;
+            orientation = new Vector3(trajectory.x, 0, trajectory.z);
+            totalLength = trajectory.magnitude;
+            height = Mathf.Abs(trajectory.y);
+            length = orientation.magnitude;
+
+            numberOfSteps = (int)Mathf.Ceil(height / stepsDimensions.y);
+            if (height - numberOfSteps * stepsDimensions.y > stepsDimensions.y / 2.0f) {
                 numberOfSteps++;
             }
-            float yScale = stairHeight / (numberOfSteps * stepsDimensions.y);
-            print(numberOfSteps);
 
-            float stairLength = new Vector2((endPos - startPos).x, (endPos - startPos).z).magnitude;
+            yScale = height / (numberOfSteps * stepsDimensions.y);
+            zScale = length / (numberOfSteps * stepsDimensions.z);
 
-            float zScale = stairLength / (numberOfSteps * stepsDimensions.z);
+            float yOffset = 0;
+            if (trajectory.y < 0) {
+                yOffset = -stepsDimensions.y * yScale;
+            }
 
-            Vector3 orientation = new Vector3((endPos - startPos).x, 0, (endPos - startPos).z).normalized;
-
-            for (int i = 0; i < numberOfSteps; i++) {
-                GameObject newStep = Instantiate(stepsPrefabs[0], startPos + ((float)i / numberOfSteps) * (endPos - startPos), Quaternion.LookRotation(orientation)) as GameObject;
-                newStep.transform.localScale = new Vector3(newStep.transform.localScale.x, newStep.transform.localScale.y * yScale, newStep.transform.localScale.z * zScale);
-                steps.Add(newStep);
+            if (ValidateStairs()) {
+                for (int i = 0; i < numberOfSteps; i++) {
+                    GameObject newStep = Instantiate(stepsPrefabs[0], startPos + ((float)i / numberOfSteps) * trajectory + new Vector3(0, yOffset, 0), Quaternion.LookRotation(orientation)) as GameObject;
+                    newStep.transform.localScale = new Vector3(newStep.transform.localScale.x, newStep.transform.localScale.y * yScale, newStep.transform.localScale.z * zScale);
+                    steps.Add(newStep);
+                }
             }
 
             oldEndPos = endPos;
@@ -64,6 +83,10 @@ public class StairsCreation : MonoBehaviour {
             dirty = false;
         }
 
+    }
+
+    private bool ValidateStairs() {
+        return (zScale > 0.25 && totalLength < 50);
     }
                     
 }
