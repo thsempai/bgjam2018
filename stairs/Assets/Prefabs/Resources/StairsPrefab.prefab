@@ -54,6 +54,8 @@ MonoBehaviour:
   startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 2, y: 3, z: 0}
   debugMode: 1
+  startConnector: {fileID: 0}
+  endConnector: {fileID: 0}
   stepsPrefabs:
-  - {fileID: 100000, guid: 8d023be1eedef4046ae04e3cd4cd7f08, type: 3}
+  - {fileID: 1751493442893576, guid: e5167c48ddaa8e84bad49b48d992efce, type: 2}
   stepsDimensions: {x: 0.2, y: 0.04, z: 0.1}
