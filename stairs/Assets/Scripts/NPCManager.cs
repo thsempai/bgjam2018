@@ -40,6 +40,9 @@ public class NPCManager : MonoBehaviour {
         if (target != null) {
             agent.SetDestination(target.transform.position);
             NPCManager targetManager = target.GetComponent<NPCManager>();
+            if(targetManager != null) {
+                isStopped = targetManager.isStopped;
+                }
 
             }
         }

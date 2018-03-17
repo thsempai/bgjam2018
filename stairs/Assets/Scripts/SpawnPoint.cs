@@ -40,6 +40,7 @@ public class SpawnPoint : MonoBehaviour {
 
     private void CloneOne() {
         GameObject clone = Instantiate(NPCType);
+        clone.SetActive(true);
         clone.transform.position = transform.position;
         NPCManager cloneManager = clone.GetComponent<NPCManager>();
         if (lastest == null) {
