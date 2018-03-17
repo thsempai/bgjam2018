@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VRHand : MonoBehaviour {
 
-    public enum HandState { Idle, CanStartBuilding, Building, CanFinishBuilding };
+    public enum HandState { Idle, CanStartBuilding, Building, CanFinishBuilding, CanBreak };
 
     public bool isBusy;
     public HandState state;
@@ -26,10 +26,15 @@ public class VRHand : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetAxis("OpenVR" + side + "Trigger") > 0.5f && state == HandState.CanStartBuilding) {
-            stairsBeingCreated = Instantiate(Resources.Load("StairsPrefab")) as GameObject;
-            stairsBeingCreated.GetComponent<StairsCreation>().AttachStart(startConnector);
-            state = HandState.Building;
+        if (Input.GetAxis("OpenVR" + side + "Trigger") > 0.5f) {
+            if (state == HandState.CanStartBuilding) {
+                stairsBeingCreated = Instantiate(Resources.Load("StairsPrefab")) as GameObject;
+                stairsBeingCreated.GetComponent<StairsCreation>().AttachStart(startConnector);
+                state = HandState.Building;
+            }
+            else if (state != HandState.Building && state != HandState.CanFinishBuilding) {
+                state = HandState.CanBreak;
+            }
         }
 
         if (state == HandState.Building || state == HandState.CanFinishBuilding) {
@@ -42,8 +47,9 @@ public class VRHand : MonoBehaviour {
                 state = HandState.Idle;
             } else if (state == HandState.Building) {
                 state = HandState.Idle;
-                stairsBeingCreated.GetComponent<StairsCreation>().DestroyStairs();
-                Destroy(stairsBeingCreated);
+                stairsBeingCreated.GetComponent<StairsCreation>().DestroyStairsVisibly();
+            } else if (state == HandState.CanBreak) {
+                state = HandState.Idle;
             }
         }
 
@@ -58,6 +64,8 @@ public class VRHand : MonoBehaviour {
                 state = HandState.CanFinishBuilding;
                 endConnector = other.gameObject.GetComponent<StairConnector>();
             }
+        } else if (other.tag == "StairsStep" && state == HandState.CanBreak) {
+            other.gameObject.GetComponent<StairsStep>().stairs.DestroyStairsVisibly();
         }
     }
 
