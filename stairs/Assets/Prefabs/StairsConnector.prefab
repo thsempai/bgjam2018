@@ -156,6 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connector: {fileID: 114035499514857724}
   nextWaypoint: {fileID: 0}
+  stay: 0
 --- !u!114 &114868471635966782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -177,5 +178,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}

@@ -7,6 +7,7 @@ public class Waypoint : MonoBehaviour {
     public StairConnector connector;
     public GameObject nextWaypoint;
     private LevelManager manager;
+    public int stay = 0;
 
     public GameObject GetNextWaypoint() {
         if (nextWaypoint != null) {
@@ -22,10 +23,24 @@ public class Waypoint : MonoBehaviour {
 
         return gameObject;
     }
-
-    public void OnTriggerStay(Collider other) {
-        if (other.tag == "Lemming" && manager.currentTarget == gameObject) {
+    public void Stay() {
+        print("test du matin, chagrin");
+        if (stay> 0) {
             manager.currentTarget = GetNextWaypoint().gameObject;
+            if(manager.currentTarget != gameObject) {
+                stay = 0;
+            }
+        }
+    }
+    public void OnTriggerEnter(Collider other) {
+        if (other.tag == "Lemming" && manager.currentTarget == gameObject) {
+            stay++;
+        }
+    }
+
+    public void OnTriggerExit(Collider other) {
+        if (other.tag == "Lemming" && manager.currentTarget == gameObject) {
+            stay--;
         }
     }
 
@@ -37,6 +52,6 @@ public class Waypoint : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        Stay();
 	}
 }
