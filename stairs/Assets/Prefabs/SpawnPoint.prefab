@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114233782295189690}
   m_Layer: 0
   m_Name: SpawnPoint
-  m_TagString: Untagged
+  m_TagString: SpawnPoint
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,7 +35,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1219469691304870}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33, y: 12.96, z: 3.47}
+  m_LocalPosition: {x: 0, y: 0.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -53,10 +53,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   number: 7
-  distanceBetweenNPC: 2
+  distanceBetweenNPC: 1
   NPCSpeed: 5
   NPCType: {fileID: 0}
   target: {fileID: 0}
+  manager: {fileID: 0}
 --- !u!114 &114641408316309536
 MonoBehaviour:
   m_ObjectHideFlags: 1
