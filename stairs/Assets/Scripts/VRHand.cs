@@ -25,6 +25,9 @@ public class VRHand : MonoBehaviour {
         stairsBeingCreated = null;
         readyToCreate = false;
         state = HandState.Idle;
+        foreach (ParticleSystem p in GetComponentsInChildren<ParticleSystem>()) {
+            p.Play();
+        }
     }
 
     // Update is called once per frame
