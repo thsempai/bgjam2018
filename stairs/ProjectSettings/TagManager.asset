@@ -8,6 +8,8 @@ TagManager:
   - Lemming
   - VRHand
   - StairsStep
+  - SpawnPoint
+  - PressurePlate
   layers:
   - Default
   - TransparentFX

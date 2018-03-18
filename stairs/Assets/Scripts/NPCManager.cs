@@ -9,7 +9,11 @@ public class NPCManager : MonoBehaviour {
 
     public GameObject target;
     NavMeshAgent agent;
+    public LevelManager manager;
 
+    public bool isAtGoal {
+        get { return Vector3.Distance(transform.position, target.transform.position) <= agent.stoppingDistance + agent.radius; }
+        }
     public bool isStopped {
         get {
             if (target == null || agent.isStopped) {
@@ -40,15 +44,33 @@ public class NPCManager : MonoBehaviour {
         if (target != null) {
             agent.SetDestination(target.transform.position);
             NPCManager targetManager = target.GetComponent<NPCManager>();
-            if(targetManager != null) {
+            if (targetManager != null) {
                 isStopped = targetManager.isStopped;
                 }
 
+            else {
+                Follow(manager.currentTarget);
+                if(agent.pathStatus != NavMeshPathStatus.PathComplete) {
+                    isStopped = true;
+                    }
+                else {
+                    isStopped = false;
+                    }
+                }
+            }
+        else {
+            target = manager.currentTarget;
+            isStopped = false;
             }
         }
 
     public void Follow(GameObject newTarget) {
         target = newTarget;
+        }
+
+    public void Kill() {
+        GetComponent<Rigidbody>().useGravity = true;
+        Destroy(gameObject, 3f);
         }
 
     }
