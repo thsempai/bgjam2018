@@ -13,21 +13,26 @@ public class Waypoint : MonoBehaviour {
         if (nextWaypoint != null) {
             return nextWaypoint;
         }
-        else if (connector.connectedStairs != null) {
-            if (connector == connector.connectedStairs.GetComponent<StairsCreation>().startConnector) {
-                return connector.connectedStairs.GetComponent<StairsCreation>().endConnector.GetOwnWaypoint();
-            } else {
-                return connector.connectedStairs.GetComponent<StairsCreation>().startConnector.GetOwnWaypoint();
+        else {
+            try {
+                if (connector.connectedStairs != null) {
+                    if (connector == connector.connectedStairs.GetComponent<StairsCreation>().startConnector) {
+                        return connector.connectedStairs.GetComponent<StairsCreation>().endConnector.GetOwnWaypoint();
+                    }
+                    else {
+                        return connector.connectedStairs.GetComponent<StairsCreation>().startConnector.GetOwnWaypoint();
+                    }
+                }
             }
+            catch (System.NullReferenceException) { Debug.LogWarning("no connector"); }
         }
-
         return gameObject;
     }
     public void Stay() {
         print("test du matin, chagrin");
-        if (stay> 0) {
+        if (stay > 0) {
             manager.currentTarget = GetNextWaypoint().gameObject;
-            if(manager.currentTarget != gameObject) {
+            if (manager.currentTarget != gameObject) {
                 stay = 0;
             }
         }
@@ -40,18 +45,18 @@ public class Waypoint : MonoBehaviour {
 
     public void OnTriggerExit(Collider other) {
         if (other.tag == "Lemming" && manager.currentTarget == gameObject) {
-            stay--;
+            //stay--;
         }
     }
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         manager = GameObject.Find("Managers").GetComponent<LevelManager>();
 
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         Stay();
-	}
+    }
 }
