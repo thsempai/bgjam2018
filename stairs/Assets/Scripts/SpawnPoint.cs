@@ -10,6 +10,7 @@ public class SpawnPoint : MonoBehaviour {
     public float NPCSpeed = 5f;
     public GameObject NPCType;
     public GameObject target;
+    public LevelManager manager;
 
     GameObject lastest;
     LocalNavMeshBuilder builder;
@@ -40,8 +41,11 @@ public class SpawnPoint : MonoBehaviour {
 
     private void CloneOne() {
         GameObject clone = Instantiate(NPCType);
+        clone.SetActive(true);
         clone.transform.position = transform.position;
         NPCManager cloneManager = clone.GetComponent<NPCManager>();
+        cloneManager.manager = manager;
+
         if (lastest == null) {
             cloneManager.Follow(target);
             }
@@ -49,6 +53,8 @@ public class SpawnPoint : MonoBehaviour {
             cloneManager.Follow(lastest);
             cloneManager.StoppingDistance = distanceBetweenNPC;
             }
+
+        cloneManager.speed = NPCSpeed;
         lastest = clone;
         number--;
         }

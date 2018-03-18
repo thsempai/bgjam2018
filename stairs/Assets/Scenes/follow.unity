@@ -634,6 +634,11 @@ Prefab:
       propertyPath: m_Tracked
       value: 
       objectReference: {fileID: 1704623931}
+    - target: {fileID: 114233782295189690, guid: c9ea2b19113f1a54bb4a15e87b11f0d7,
+        type: 2}
+      propertyPath: distanceBetweenNPC
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c9ea2b19113f1a54bb4a15e87b11f0d7, type: 2}
   m_IsPrefabParent: 0
