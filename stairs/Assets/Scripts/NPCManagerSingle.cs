@@ -73,6 +73,10 @@ public class NPCManagerSingle : MonoBehaviour {
 
     public void Kill() {
         GetComponent<Rigidbody>().useGravity = true;
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<Rigidbody>().AddRelativeForce(transform.up * 2000f);
+
+        Destroy(agent);
         Destroy(gameObject, 3f);
     }
 
