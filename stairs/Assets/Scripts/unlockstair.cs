@@ -16,7 +16,7 @@ public class unlockstair : MonoBehaviour {
     {
         anim = this.GetComponent<Animator>();
         anim.enabled = false;
-        Debug.Log("start unlockstair");
+        
 
 	}
 	
