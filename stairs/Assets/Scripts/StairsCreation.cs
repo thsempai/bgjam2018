@@ -98,7 +98,7 @@ public class StairsCreation : MonoBehaviour {
     }
 
     public bool ValidateStairs() {
-        return (zScale > 0.25 && totalLength < 50);
+        return (zScale > 0.30 && totalLength < 50);
     }
                 
     public void DestroyStairs() {
