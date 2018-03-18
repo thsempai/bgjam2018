@@ -10,6 +10,8 @@ public class unlockstair : MonoBehaviour {
     public GameObject oldTarget;
     public GameObject newTarget;
 
+    public StairConnector toActivate;
+
     bool on = false;
     // Use this for initialization
     void Start ()
@@ -38,10 +40,11 @@ public class unlockstair : MonoBehaviour {
     void ActiveStairs()
     {
         on = true;
-        Debug.Log("More Stairs");
-        anim.enabled = true;
-        oldTarget = newTarget;
-        newTarget = manager.currentTarget;
-        manager.currentTarget = oldTarget;
+        //Debug.Log("More Stairs");
+        //anim.enabled = true;
+        //oldTarget = newTarget;
+        //newTarget = manager.currentTarget;
+        //manager.currentTarget = oldTarget;
+        toActivate.isActive = true;
         }
     }
