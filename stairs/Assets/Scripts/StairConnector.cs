@@ -23,5 +23,7 @@ public class StairConnector : MonoBehaviour {
 
 	}
 
-
+    public GameObject GetOwnWaypoint() {
+        return gameObject.GetComponentInChildren<Waypoint>().gameObject;
+    }
 }

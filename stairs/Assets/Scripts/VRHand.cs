@@ -12,6 +12,9 @@ public class VRHand : MonoBehaviour {
     public StairConnector startConnector;
     public StairConnector endConnector;
 
+    public AudioSource breakSFX;
+    public AudioSource placeSFX;
+
     public string side;
 
     private bool readyToCreate;
@@ -30,6 +33,7 @@ public class VRHand : MonoBehaviour {
             if (state == HandState.CanStartBuilding) {
                 stairsBeingCreated = Instantiate(Resources.Load("StairsPrefab")) as GameObject;
                 stairsBeingCreated.GetComponent<StairsCreation>().AttachStart(startConnector);
+                placeSFX.Play();
                 state = HandState.Building;
             }
             else if (state != HandState.Building && state != HandState.CanFinishBuilding) {
@@ -44,10 +48,12 @@ public class VRHand : MonoBehaviour {
         if (Input.GetAxis("OpenVR" + side + "Trigger") < 0.1f) {
             if (state == HandState.CanFinishBuilding && stairsBeingCreated.GetComponent<StairsCreation>().ValidateStairs()) {
                 stairsBeingCreated.GetComponent<StairsCreation>().AttachEnd(endConnector);
+                placeSFX.Play();
                 state = HandState.Idle;
             } else if (state == HandState.Building) {
                 state = HandState.Idle;
-                stairsBeingCreated.GetComponent<StairsCreation>().DestroyStairsVisibly();
+                stairsBeingCreated.GetComponent<StairsCreation>().DestroyStairsVisibly(transform.position);
+                breakSFX.Play();
             } else if (state == HandState.CanBreak) {
                 state = HandState.Idle;
             }
@@ -65,7 +71,8 @@ public class VRHand : MonoBehaviour {
                 endConnector = other.gameObject.GetComponent<StairConnector>();
             }
         } else if (other.tag == "StairsStep" && state == HandState.CanBreak) {
-            other.gameObject.GetComponent<StairsStep>().stairs.DestroyStairsVisibly();
+            other.gameObject.GetComponent<StairsStep>().stairs.DestroyStairsVisibly(transform.position);
+            breakSFX.Play();
         }
     }
 

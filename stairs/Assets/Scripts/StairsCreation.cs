@@ -37,12 +37,14 @@ public class StairsCreation : MonoBehaviour {
 
     public void AttachStart(StairConnector connector) {
         startConnector = connector;
-        startPos = connector.transform.position;
+        startPos = connector.transform.position + new Vector3(0, 0.2f, 0);
+        connector.connectedStairs = gameObject;
     }
 
     public void AttachEnd(StairConnector connector) {
         endConnector = connector;
-        endPos = connector.transform.position;
+        endPos = connector.transform.position + new Vector3(0, 0.4f, 0);
+        connector.connectedStairs = gameObject;
     }
 
     // Update is called once per frame
@@ -108,10 +110,11 @@ public class StairsCreation : MonoBehaviour {
         steps.Clear();
     }
 
-    public void DestroyStairsVisibly() {
+    public void DestroyStairsVisibly(Vector3 handPosition) {
         foreach (GameObject step in steps) {
             print("Destroying step");
             step.GetComponent<Rigidbody>().isKinematic = false;
+            step.GetComponent<Rigidbody>().AddExplosionForce(50f, handPosition + 3f * Random.onUnitSphere, totalLength);
             Destroy(step, 3f);
         }
         if (gameObject) {

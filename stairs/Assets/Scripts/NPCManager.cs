@@ -62,7 +62,8 @@ public class NPCManager : MonoBehaviour {
             target = manager.currentTarget;
             isStopped = false;
             }
-        }
+
+    }
 
     public void Follow(GameObject newTarget) {
         target = newTarget;
@@ -73,4 +74,4 @@ public class NPCManager : MonoBehaviour {
         Destroy(gameObject, 3f);
         }
 
-    }
+}
