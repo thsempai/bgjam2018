@@ -9,6 +9,8 @@ public class Waypoint : MonoBehaviour {
     private LevelManager manager;
     public int stay = 0;
 
+    private List<NPCManagerSingle> clients;
+
     public GameObject GetNextWaypoint() {
         if (nextWaypoint != null) {
             return nextWaypoint;
@@ -38,25 +40,27 @@ public class Waypoint : MonoBehaviour {
         }
     }
     public void OnTriggerEnter(Collider other) {
-        if (other.tag == "Lemming" && manager.currentTarget == gameObject) {
-            stay++;
+        if (other.tag == "Lemming" && other.GetComponent<NPCManagerSingle>().target == gameObject) {
+            clients.Add(other.gameObject.GetComponent<NPCManagerSingle>());
         }
     }
 
-    public void OnTriggerExit(Collider other) {
-        if (other.tag == "Lemming" && manager.currentTarget == gameObject) {
-            //stay--;
-        }
-    }
 
     // Use this for initialization
     void Start() {
-        manager = GameObject.Find("Managers").GetComponent<LevelManager>();
-
+        clients = new List<NPCManagerSingle>();
     }
 
     // Update is called once per frame
     void Update() {
-        Stay();
+        //Stay();
+        GameObject newWaypoint = GetNextWaypoint();
+        if (newWaypoint != gameObject) {
+            foreach (NPCManagerSingle c in clients) {
+                c.target = newWaypoint;
+            }
+            clients.Clear();
+        }
+
     }
 }
