@@ -10,7 +10,7 @@ public class Goal : MonoBehaviour {
 
     public void OnTriggerEnter(Collider other) {
         if (other.tag == "Lemming") {
-            NPCManager npcManager = other.transform.GetComponent<NPCManager>();
+            NPCManagerSingle npcManager = other.transform.GetComponent<NPCManagerSingle>();
             if (npcManager != null) {
                 print("dipel");
                 npcManager.Dispel();
@@ -18,7 +18,6 @@ public class Goal : MonoBehaviour {
 
             }
                 LemmingsGoal--;
-                print(LemmingsGoal);
                 if (LemmingsGoal <= 0)
                  {
                     print("SceneChanger");

@@ -25,6 +25,9 @@ public class VRHand : MonoBehaviour {
         stairsBeingCreated = null;
         readyToCreate = false;
         state = HandState.Idle;
+        foreach (ParticleSystem p in GetComponentsInChildren<ParticleSystem>()) {
+            p.Play();
+        }
     }
 
     // Update is called once per frame
@@ -73,6 +76,8 @@ public class VRHand : MonoBehaviour {
         } else if (other.tag == "StairsStep" && state == HandState.CanBreak) {
             other.gameObject.GetComponent<StairsStep>().stairs.DestroyStairsVisibly(transform.position);
             breakSFX.Play();
+        } else if (other.tag == "Lemming" && state == HandState.CanBreak) {
+            other.gameObject.GetComponent<NPCManagerSingle>().Kill();
         }
     }
 
