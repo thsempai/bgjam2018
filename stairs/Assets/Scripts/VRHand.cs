@@ -30,7 +30,7 @@ public class VRHand : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (Input.GetAxis("OpenVR" + side + "Trigger") > 0.5f) {
-            if (state == HandState.CanStartBuilding) {
+            if (state == HandState.CanStartBuilding && startConnector.isActive) {
                 stairsBeingCreated = Instantiate(Resources.Load("StairsPrefab")) as GameObject;
                 stairsBeingCreated.GetComponent<StairsCreation>().AttachStart(startConnector);
                 placeSFX.Play();
@@ -46,7 +46,7 @@ public class VRHand : MonoBehaviour {
         }
 
         if (Input.GetAxis("OpenVR" + side + "Trigger") < 0.1f) {
-            if (state == HandState.CanFinishBuilding && stairsBeingCreated.GetComponent<StairsCreation>().ValidateStairs()) {
+            if (state == HandState.CanFinishBuilding && stairsBeingCreated.GetComponent<StairsCreation>().ValidateStairs() && endConnector.isActive) {
                 stairsBeingCreated.GetComponent<StairsCreation>().AttachEnd(endConnector);
                 placeSFX.Play();
                 state = HandState.Idle;
