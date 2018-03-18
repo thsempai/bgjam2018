@@ -13,16 +13,18 @@ public class NPCManager : MonoBehaviour {
 
     public bool isAtGoal {
         get { return Vector3.Distance(transform.position, target.transform.position) <= agent.stoppingDistance + agent.radius; }
-        }
+    }
+
     public bool isStopped {
         get {
             if (target == null || agent.isStopped) {
                 return true;
-                }
-            return Vector3.Distance(transform.position, target.transform.position) <= agent.stoppingDistance + agent.radius;
             }
-        set { agent.isStopped = value; }
+            return Vector3.Distance(transform.position, target.transform.position) <= agent.stoppingDistance + agent.radius;
         }
+        set { agent.isStopped = value; }
+    }
+
     public float speed {
         get { return GetComponent<NavMeshAgent>().speed; }
         set { GetComponent<NavMeshAgent>().speed = value; }
@@ -37,7 +39,7 @@ public class NPCManager : MonoBehaviour {
 
     void Start() {
         agent = GetComponent<NavMeshAgent>();
-        }
+    }
 
     // Update is called once per frame
     void Update() {
@@ -46,21 +48,21 @@ public class NPCManager : MonoBehaviour {
             NPCManager targetManager = target.GetComponent<NPCManager>();
             if (targetManager != null) {
                 isStopped = targetManager.isStopped;
-                }
-
-            else {
+            } else {
                 Follow(manager.currentTarget);
-                if(agent.pathStatus != NavMeshPathStatus.PathComplete) {
-                    isStopped = true;
-                    }
-                else {
-                    isStopped = false;
-                    }
-                }
+                //if(agent.pathStatus != NavMeshPathStatus.PathComplete) {
+                //    isStopped = true;
+                //    }
+                //else {
+                //    isStopped = false;
+                //    }
             }
+
+        }
         else {
             target = manager.currentTarget;
             isStopped = false;
+            //agent.stoppingDistance = 0;
             }
 
     }
@@ -73,5 +75,9 @@ public class NPCManager : MonoBehaviour {
         GetComponent<Rigidbody>().useGravity = true;
         Destroy(gameObject, 3f);
         }
+
+    public void Dispel(){
+        Destroy(gameObject, 1f);
+    }
 
 }
