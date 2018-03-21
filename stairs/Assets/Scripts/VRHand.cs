@@ -17,6 +17,8 @@ public class VRHand : MonoBehaviour {
 
     public string side;
 
+    public SteamVR_TrackedController controller;
+
     private bool readyToCreate;
 
 	// Use this for initialization
@@ -37,6 +39,7 @@ public class VRHand : MonoBehaviour {
                 stairsBeingCreated = Instantiate(Resources.Load("StairsPrefab")) as GameObject;
                 stairsBeingCreated.GetComponent<StairsCreation>().AttachStart(startConnector);
                 placeSFX.Play();
+                stairsBeingCreated.GetComponent<StairsCreation>().controllerIndex = (int)controller.controllerIndex;
                 state = HandState.Building;
             }
             else if (state != HandState.Building && state != HandState.CanFinishBuilding) {
@@ -51,6 +54,7 @@ public class VRHand : MonoBehaviour {
         if (Input.GetAxis("OpenVR" + side + "Trigger") < 0.1f) {
             if (state == HandState.CanFinishBuilding && stairsBeingCreated.GetComponent<StairsCreation>().ValidateStairs() && endConnector.isActive) {
                 stairsBeingCreated.GetComponent<StairsCreation>().AttachEnd(endConnector);
+                stairsBeingCreated.GetComponent<StairsCreation>().controllerIndex = -1;
                 placeSFX.Play();
                 state = HandState.Idle;
             } else if (state == HandState.Building) {
