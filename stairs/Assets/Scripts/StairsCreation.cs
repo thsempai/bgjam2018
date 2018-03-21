@@ -29,6 +29,10 @@ public class StairsCreation : MonoBehaviour {
     private Vector3 trajectory;
     private Vector3 orientation;
 
+    private int oldNumberOfSteps;
+
+    public int controllerIndex = -1;
+
 	// Use this for initialization
 	void Start () {
         steps = new List<GameObject>();
@@ -84,6 +88,12 @@ public class StairsCreation : MonoBehaviour {
             }
 
             if (ValidateStairs()) {
+                if (numberOfSteps != oldNumberOfSteps) {
+                    oldNumberOfSteps = numberOfSteps;
+                    if (controllerIndex != -1) {
+                        SteamVR_Controller.Input(controllerIndex).TriggerHapticPulse(3000);
+                    }
+                }
                 for (int i = 0; i < numberOfSteps; i++) {
                     GameObject newStep = Instantiate(stepsPrefabs[0], startPos + ((float)i / numberOfSteps) * trajectory + new Vector3(0, yOffset, 0), Quaternion.LookRotation(orientation)) as GameObject;
                     newStep.transform.localScale = new Vector3(newStep.transform.localScale.x, newStep.transform.localScale.y * yScale, newStep.transform.localScale.z * zScale);
